@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="page">
+        <section class="card calculator">
+            <header class="card-header">
+                <h1 class="title">Calculator</h1>
+                <p class="subtitle">Enter two numbers and an operator (+, -, *, /)</p>
+            </header>
+
+            <form class="controls" onsubmit="event.preventDefault(); Start();">
+                <label class="field">
+                    <span class="label">Number 1</span>
+                    <input type="text" id="text_1" placeholder="For example: 12">
+                </label>
+
+                <label class="field">
+                    <span class="label">Operator</span>
+                    <input type="text" id="text_2" placeholder="+, -, *, /">
+                </label>
+
+                <label class="field">
+                    <span class="label">Number 2</span>
+                    <input type="text" id="text_3" placeholder="For example: 3">
+                </label>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-primary" onclick="Start()">Calculate</button>
+                    <button type="button" class="btn" onclick="Reset()">Clear</button>
+                </div>
+            </form>
+
+            <div class="result-wrap">
+                <p id="text" class="result" aria-live="polite"></p>
+            </div>
+        </section>
+        <footer class="footer">Made pretty with <strong>style.css</strong></footer>
+    </main>
+
+    <script>
+        const resultEl = document.getElementById('text');
+
+        function Start() {
+            const text_1 = document.getElementById('text_1').value;
+            const text_2 = document.getElementById('text_2').value.trim();
+            const text_3 = document.getElementById('text_3').value;
+
+            const l1_num = Number(text_1);
+            const l3_num = Number(text_3);
+
+            if (isNaN(l1_num) || isNaN(l3_num)) {
+                resultEl.textContent = 'Please enter valid numbers.';
+                resultEl.classList.add('error');
+                return;
+            }
+
+            let num;
+            switch (text_2) {
+                case '+': num = l1_num + l3_num; break;
+                case '-': num = l1_num - l3_num; break;
+                case '*': num = l1_num * l3_num; break;
+                case '/': num = l3_num === 0 ? 'Division by zero!' : l1_num / l3_num; break;
+                default: num = 'Unknown operator!';
+            }
+
+            resultEl.classList.remove('error');
+            resultEl.textContent = num;
+        }
+
+        function Reset() {
+            document.getElementById('text_1').value = '';
+            document.getElementById('text_2').value = '';
+            document.getElementById('text_3').value = '';
+            resultEl.textContent = '';
+            resultEl.classList.remove('error');
+        }
+    </script>
+</body>
+</html>
